@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eastside Tennis — Division 3 · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1F3A;
+    --card: #0F2540;
+    --lime: #C8F135;
+    --white: #F4F7F2;
+    --muted: #7A8FA8;
+    --win: #C8F135;
+    --loss: #FF4D6D;
+    --border: rgba(200,241,53,0.14);
+    --gbg: rgba(200,241,53,0.07);
+    --rbg: rgba(255,77,109,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;
+    background-image:radial-gradient(ellipse 80% 35% at 50% -2%,rgba(200,241,53,0.055) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(200,241,53,0.022) 60px),
+    repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(200,241,53,0.022) 60px);}
+
+  /* HEADER */
+  header{padding:28px 36px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:14px}
+  .icon{width:46px;height:46px;background:var(--lime);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(200,241,53,0.28)}
+  .tname{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;line-height:1}
+  .tsub{font-size:.7rem;color:var(--muted);letter-spacing:1.8px;text-transform:uppercase;margin-top:3px;font-weight:500}
+  .hright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.7rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:500}
+  .badge.g{background:var(--gbg);color:var(--lime);border-color:rgba(200,241,53,0.28)}
+  .badge.m{color:var(--muted)}
+  .atl{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;color:var(--muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border);border-radius:18px;transition:color .15s}
+  .atl:hover{color:var(--lime)}
+
+  /* STAT BAR */
+  .sbar{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
+  @media(max-width:560px){.sbar{grid-template-columns:repeat(3,1fr)}}
+  .scell{padding:18px 8px;text-align:center;border-right:1px solid var(--border)}
+  .scell:last-child{border-right:none}
+  .snum{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1}
+  .snum.g{color:var(--lime)}.snum.r{color:var(--loss)}.snum.w{color:var(--white)}
+  .slbl{font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:3px;font-weight:500}
+
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:1fr 352px}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}.sidebar{border-left:none;border-top:1px solid var(--border)}}
+
+  /* MATCHES */
+  .mcol{padding:28px 32px;border-right:1px solid var(--border)}
+  .ctitle{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .ctitle::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  .mc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:18px 20px;margin-bottom:9px;border-left-width:4px;transition:transform .12s,box-shadow .12s;animation:fu .3s ease both}
+  .mc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.22)}
+  .mc.win{border-left-color:var(--win)}.mc.loss{border-left-color:var(--loss)}
+  @keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+  .mc:nth-child(1){animation-delay:.04s}.mc:nth-child(2){animation-delay:.08s}.mc:nth-child(3){animation-delay:.12s}
+  .mc:nth-child(4){animation-delay:.16s}.mc:nth-child(5){animation-delay:.20s}.mc:nth-child(6){animation-delay:.24s}.mc:nth-child(7){animation-delay:.28s}
+
+  .mtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+  .mmeta{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted)}
+  .rb{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:1.4px;padding:2px 11px;border-radius:18px}
+  .rb.win{background:var(--gbg);color:var(--win);border:1px solid rgba(200,241,53,.28)}
+  .rb.loss{background:var(--rbg);color:var(--loss);border:1px solid rgba(255,77,109,.28)}
+
+  .mrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .tlbl{font-size:.97rem;font-weight:600}
+  .tlbl.us{color:var(--lime)}
+  .bscore{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;display:flex;align-items:center;gap:5px}
+  .bscore .us{color:var(--lime)}.bscore .opp{color:var(--loss)}.bscore .sep{color:var(--muted);font-size:1.3rem}
+
+  .loc{font-size:.67rem;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:4px}
+
+  .lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}
+  .li{border:1px solid;border-radius:7px;padding:6px 9px;font-size:.67rem;font-family:'DM Mono',monospace}
+  .li.w{border-color:rgba(200,241,53,.22);background:rgba(200,241,53,.04)}
+  .li.l{border-color:rgba(255,77,109,.22);background:rgba(255,77,109,.04)}
+  .ltype{font-size:.6rem;color:var(--muted);letter-spacing:.4px;margin-bottom:1px;display:flex;align-items:center;justify-content:space-between}
+  .lrd{font-family:'Bebas Neue',sans-serif;font-size:.62rem;letter-spacing:1px}
+  .lrd.w{color:var(--win)}.lrd.l{color:var(--loss)}
+  .lp{color:var(--white);margin-bottom:1px;line-height:1.3}
+  .ls{color:var(--muted);font-size:.63rem}
+
+  /* SIDEBAR */
+  .sidebar{padding:28px 20px}
+  .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:14px}
+  .tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;cursor:pointer;font-weight:500;transition:color .15s,border-color .15s}
+  .tab.active{color:var(--lime);border-bottom-color:var(--lime)}
+  .tab:hover:not(.active){color:var(--white)}
+  .tp{display:none}.tp.active{display:block}
+
+  .pr{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:9px;margin-bottom:6px;transition:border-color .12s}
+  .pr:hover{border-color:rgba(200,241,53,.28)}
+  .rnk{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--muted);width:20px;text-align:center;flex-shrink:0}
+  .rnk.gold{color:#FFD700}.rnk.silver{color:#C0C0C0}.rnk.bronze{color:#CD7F32}
+  .pi{flex:1;min-width:0}
+  .pn{font-weight:600;font-size:.87rem}
+  .prec{font-size:.62rem;color:var(--muted);letter-spacing:.4px;margin-top:1px;font-family:'DM Mono',monospace}
+  .mbar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:3px;overflow:hidden}
+  .mfill{height:100%;background:var(--lime);border-radius:3px}
+  .bw{width:52px;flex-shrink:0;text-align:right}
+  .wc{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--lime)}
+  .wl{font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block}
+
+  /* INSIGHTS */
+  .ins{margin-top:22px}
+  .nc{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:7px;font-size:.75rem;line-height:1.55;color:var(--muted)}
+  .nc strong{color:var(--white)}
+  .tag{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:.68rem;letter-spacing:1px;padding:1px 7px;border-radius:9px;margin-right:5px;vertical-align:middle}
+  .tag.hot{background:rgba(200,241,53,.13);color:var(--lime)}
+  .tag.info{background:rgba(96,165,250,.13);color:#60A5FA}
+  .tag.warn{background:rgba(255,77,109,.13);color:var(--loss)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="icon">🎾</div>
+    <div>
+      <div class="tname">Eastside Tennis</div>
+      <div class="tsub">ATL Austin · Division 3 · Winter/Spring 2026</div>
+    </div>
+  </div>
+  <div class="hright">
+    <div class="badge g">4W – 3L Season Record</div>
+    <div class="badge m">7 Matches Played</div>
+    <a class="atl" href="https://www.atltennis.org/schedules" target="_blank">↗ ATL Site</a>
+  </div>
+</header>
+
+<div class="sbar">
+  <div class="scell"><div class="snum g">4</div><div class="slbl">Match Wins</div></div>
+  <div class="scell"><div class="snum r">3</div><div class="slbl">Match Losses</div></div>
+  <div class="scell"><div class="snum w">18</div><div class="slbl">Lines Won</div></div>
+  <div class="scell"><div class="snum r">10</div><div class="slbl">Lines Lost</div></div>
+  <div class="scell"><div class="snum g">40</div><div class="slbl">Sets Won</div></div>
+  <div class="scell"><div class="snum r">27</div><div class="slbl">Sets Lost</div></div>
+  <div class="scell"><div class="snum g">60%</div><div class="slbl">Set Win %</div></div>
+</div>
+
+<div class="layout">
+<div class="mcol">
+  <div class="ctitle">Season Results</div>
+
+  <!-- M301 Jan 24 @ One Hit Wonders — LOSS 1-3 -->
+  <div class="mc loss">
+    <div class="mtop">
+      <span class="mmeta">Match #301 · Jan 24, 2026 · Away</span>
+      <span class="rb loss">LOSS</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">1</span><span class="sep">–</span><span class="opp">3</span></span>
+      <span class="tlbl">One Hit Wonders</span>
+    </div>
+    <div class="loc">📍 Austin High School</div>
+    <div class="lgrid">
+      <div class="li l"><div class="ltype">S1 <span class="lrd l">LOSS</span></div><div class="lp">Musa Salihu</div><div class="ls">6-3, 6-4 vs Kevin Maas</div></div>
+      <div class="li l"><div class="ltype">S2 <span class="lrd l">LOSS</span></div><div class="lp">Dee Murphy</div><div class="ls">6-3, 7-5, 10-6 vs Zac Ortiz</div></div>
+      <div class="li w"><div class="ltype">D1 <span class="lrd w">WIN</span></div><div class="lp">anand Thodati / Elan Vasudevan</div><div class="ls">7-5, 6-4 vs Gehring/Tucker</div></div>
+      <div class="li l"><div class="ltype">D2 <span class="lrd l">LOSS</span></div><div class="lp">Rick Durham / Omar Garcia</div><div class="ls">6-4, 7-6, 10-8 vs Syvertson/Munford</div></div>
+    </div>
+  </div>
+
+  <!-- M307 Feb 7 @ Deuce Bags — WIN 2-2 (sets tiebreak) -->
+  <div class="mc win">
+    <div class="mtop">
+      <span class="mmeta">Match #307 · Feb 7, 2026 · Away</span>
+      <span class="rb win">WIN</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">2</span><span class="sep">–</span><span class="opp">2</span></span>
+      <span class="tlbl">Deuce Bags</span>
+    </div>
+    <div class="loc">📍 Austin Tennis Center · <span style="color:var(--lime);margin-left:4px">Won on sets tiebreak</span></div>
+    <div class="lgrid">
+      <div class="li l"><div class="ltype">S1 <span class="lrd l">LOSS</span></div><div class="lp">Brad Jackson</div><div class="ls">6-3, 6-2 vs Torben Behmer</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Tony Tran</div><div class="ls">6-1, 6-0 vs Tushar Jasrotia</div></div>
+      <div class="li l"><div class="ltype">D1 <span class="lrd l">LOSS</span></div><div class="lp">Rohith Chinnasamy / Elan Vasudevan</div><div class="ls">7-5, 6-4, 10-8 vs Chhajed/Nguyen</div></div>
+      <div class="li w"><div class="ltype">D2 <span class="lrd w">WIN</span></div><div class="lp">Larry Bibb / Omar Garcia</div><div class="ls">6-3, 6-0 vs Haynes/Martinez</div></div>
+    </div>
+  </div>
+
+  <!-- M313 Feb 21 HOME vs ATC All-Stars — WIN 3-1 -->
+  <div class="mc win">
+    <div class="mtop">
+      <span class="mmeta">Match #313 · Feb 21, 2026 · Home</span>
+      <span class="rb win">WIN</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">3</span><span class="sep">–</span><span class="opp">1</span></span>
+      <span class="tlbl">ATC All-Stars</span>
+    </div>
+    <div class="loc">📍 Austin High School</div>
+    <div class="lgrid">
+      <div class="li w"><div class="ltype">S1 <span class="lrd w">WIN</span></div><div class="lp">Gilbert Onyenwezi</div><div class="ls">6-3, 7-6 vs Ruben Peña</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Brad Jackson</div><div class="ls">6-1, 6-4 vs Leo Nguyen</div></div>
+      <div class="li w"><div class="ltype">D1 <span class="lrd w">WIN</span></div><div class="lp">Larry Bibb / Rohith Chinnasamy</div><div class="ls">6-2, 7-6, 10-5 vs Gillespie/Bessen</div></div>
+      <div class="li l"><div class="ltype">D2 <span class="lrd l">LOSS</span></div><div class="lp">Madison Powell / Elan Vasudevan</div><div class="ls">6-3, 6-3, 6-3 vs Ramirez/Stiff</div></div>
+    </div>
+  </div>
+
+  <!-- M316 Feb 28 @ One Hit Wonders — LOSS 1-3 -->
+  <div class="mc loss">
+    <div class="mtop">
+      <span class="mmeta">Match #316 · Feb 28, 2026 · Away</span>
+      <span class="rb loss">LOSS</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">1</span><span class="sep">–</span><span class="opp">3</span></span>
+      <span class="tlbl">One Hit Wonders</span>
+    </div>
+    <div class="loc">📍 Austin High School</div>
+    <div class="lgrid">
+      <div class="li l"><div class="ltype">S1 <span class="lrd l">LOSS</span></div><div class="lp">Tony Tran</div><div class="ls">6-2, 6-3, 10-4 vs Cem Erkam</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Brad Jackson</div><div class="ls">Forfeit (opponent)</div></div>
+      <div class="li l"><div class="ltype">D1 <span class="lrd l">LOSS</span></div><div class="lp">Rohith Chinnasamy / Elan Vasudevan</div><div class="ls">6-2, 6-4, 10-5 vs Grossman/Marino</div></div>
+      <div class="li l"><div class="ltype">D2 <span class="lrd l">LOSS</span></div><div class="lp">Ronald Heinrich / Charles Robinson</div><div class="ls">6-4, 6-4, 10-3 vs Sharan/Ortiz</div></div>
+    </div>
+  </div>
+
+  <!-- M319 Mar 7 @ Cool Spin — WIN 3-1 -->
+  <div class="mc win">
+    <div class="mtop">
+      <span class="mmeta">Match #319 · Mar 7, 2026 · Away</span>
+      <span class="rb win">WIN</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">3</span><span class="sep">–</span><span class="opp">1</span></span>
+      <span class="tlbl">Cool Spin</span>
+    </div>
+    <div class="loc">📍 Austin Tennis Center</div>
+    <div class="lgrid">
+      <div class="li l"><div class="ltype">S1 <span class="lrd l">LOSS</span></div><div class="lp">Musa Salihu</div><div class="ls">7-5, 7-5 vs Drew Pinzur</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Brad Jackson</div><div class="ls">6-3, 6-2 vs Chuck Moore</div></div>
+      <div class="li w"><div class="ltype">D1 <span class="lrd w">WIN</span></div><div class="lp">Larry Bibb / Rohith Chinnasamy</div><div class="ls">6-0, 6-0 vs Loudermilk/DeRoo</div></div>
+      <div class="li w"><div class="ltype">D2 <span class="lrd w">WIN</span></div><div class="lp">Charles Robinson / Elan Vasudevan</div><div class="ls">6-4, 7-6 vs Blake/Malin</div></div>
+    </div>
+  </div>
+
+  <!-- M322 Mar 21 HOME vs Deuce Bags — WIN 3-1 -->
+  <div class="mc win">
+    <div class="mtop">
+      <span class="mmeta">Match #322 · Mar 21, 2026 · Home</span>
+      <span class="rb win">WIN</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">3</span><span class="sep">–</span><span class="opp">1</span></span>
+      <span class="tlbl">Deuce Bags</span>
+    </div>
+    <div class="loc">📍 Austin Tennis Center</div>
+    <div class="lgrid">
+      <div class="li l"><div class="ltype">S1 <span class="lrd l">LOSS</span></div><div class="lp">Gilbert Onyenwezi</div><div class="ls">6-1, 3-6, 10-4 vs Hung Nguyen</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Dee Murphy</div><div class="ls">6-2, 6-1 vs Phillip Martinez</div></div>
+      <div class="li w"><div class="ltype">D1 <span class="lrd w">WIN</span></div><div class="lp">Rohith Chinnasamy / anand Thodati</div><div class="ls">6-3, 6-4 vs Jasrotia/Behmer</div></div>
+      <div class="li w"><div class="ltype">D2 <span class="lrd w">WIN</span></div><div class="lp">Madison Powell / Elan Vasudevan</div><div class="ls">4-6, 6-2, 6-4 vs Chen/Haynes</div></div>
+    </div>
+  </div>
+
+  <!-- M325 Mar 28 HOME vs Westover Wildlings — WIN 3-1 (TODAY) -->
+  <div class="mc win">
+    <div class="mtop">
+      <span class="mmeta">Match #325 · Mar 28, 2026 · Home · <span style="color:var(--lime)">TODAY</span></span>
+      <span class="rb win">WIN</span>
+    </div>
+    <div class="mrow">
+      <span class="tlbl us">Eastside</span>
+      <span class="bscore"><span class="us">3</span><span class="sep">–</span><span class="opp">1</span></span>
+      <span class="tlbl">Westover Wildlings</span>
+    </div>
+    <div class="loc">📍 Austin Tennis Center</div>
+    <div class="lgrid">
+      <div class="li w"><div class="ltype">S1 <span class="lrd w">WIN</span></div><div class="lp">Elan Vasudevan</div><div class="ls">6-2, 6-2 vs Miles Hanson</div></div>
+      <div class="li w"><div class="ltype">S2 <span class="lrd w">WIN</span></div><div class="lp">Tony Tran</div><div class="ls">6-2, 5-7, 10-7 vs Azim Nagree</div></div>
+      <div class="li w"><div class="ltype">D1 <span class="lrd w">WIN</span></div><div class="lp">Larry Bibb / Rick Durham</div><div class="ls">6-2, 6-4 vs Arredondo/Suarez</div></div>
+      <div class="li l"><div class="ltype">D2 <span class="lrd l">LOSS</span></div><div class="lp">Micheal Bourda / Ronald Heinrich</div><div class="ls">6-4, 6-4 vs McBride/Hitt</div></div>
+    </div>
+  </div>
+
+</div><!-- end mcol -->
+
+<div class="sidebar">
+  <div class="ctitle">Player Leaders</div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('singles',this)">Singles</button>
+    <button class="tab" onclick="showTab('doubles',this)">Doubles</button>
+    <button class="tab" onclick="showTab('overall',this)">Overall</button>
+  </div>
+
+  <!-- SINGLES: Brad Jackson 3-1, Tony Tran 2-1, Elan Vasudevan 1-0, Gilbert 1-1, Dee Murphy 1-1, Musa Salihu 0-2 -->
+  <div class="tp active" id="tab-singles">
+    <div class="pr"><div class="rnk gold">1</div><div class="pi"><div class="pn">Brad Jackson</div><div class="prec">3W · 1L · 75%</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">3</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk silver">2</div><div class="pi"><div class="pn">Tony Tran</div><div class="prec">2W · 1L · 67%</div><div class="mbar"><div class="mfill" style="width:67%"></div></div></div><div class="bw"><div class="wc">2</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk bronze">3</div><div class="pi"><div class="pn">Elan Vasudevan</div><div class="prec">1W · 0L · 100%</div><div class="mbar"><div class="mfill" style="width:33%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">4</div><div class="pi"><div class="pn">Gilbert Onyenwezi</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:33%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">4</div><div class="pi"><div class="pn">Dee Murphy</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:33%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">6</div><div class="pi"><div class="pn">Musa Salihu</div><div class="prec">0W · 2L · 0%</div><div class="mbar"><div class="mfill" style="width:0%"></div></div></div><div class="bw"><div class="wc" style="color:var(--muted)">0</div><span class="wl">Wins</span></div></div>
+  </div>
+
+  <!-- DOUBLES: Larry Bibb 4-0, Rohith Chinnasamy 4-2, Elan Vasudevan 3-3, anand Thodati 2-0, Madison Powell 1-1, Charles Robinson 1-1, Omar Garcia 1-1, Rick Durham 1-1, Ronald Heinrich 0-2, Micheal Bourda 0-1 -->
+  <div class="tp" id="tab-doubles">
+    <div class="pr"><div class="rnk gold">1</div><div class="pi"><div class="pn">Larry Bibb</div><div class="prec">4W · 0L · 100%</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">4</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk silver">2</div><div class="pi"><div class="pn">Rohith Chinnasamy</div><div class="prec">4W · 2L · 67%</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">4</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk bronze">3</div><div class="pi"><div class="pn">Elan Vasudevan</div><div class="prec">3W · 3L · 50%</div><div class="mbar"><div class="mfill" style="width:75%"></div></div></div><div class="bw"><div class="wc">3</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">4</div><div class="pi"><div class="pn">anand Thodati</div><div class="prec">2W · 0L · 100%</div><div class="mbar"><div class="mfill" style="width:50%"></div></div></div><div class="bw"><div class="wc">2</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">Madison Powell</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">Charles Robinson</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">Omar Garcia</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">Rick Durham</div><div class="prec">1W · 1L · 50%</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Wins</span></div></div>
+    <div class="pr"><div class="rnk">9</div><div class="pi"><div class="pn">Ronald Heinrich</div><div class="prec">0W · 2L · 0%</div><div class="mbar"><div class="mfill" style="width:0%"></div></div></div><div class="bw"><div class="wc" style="color:var(--muted)">0</div><span class="wl">Wins</span></div></div>
+  </div>
+
+  <!-- OVERALL: Elan 4(1S+3D), Larry 4(0S+4D), Rohith 4(0S+4D), Brad 3(3S+0D), Tony 2(2S), anand 2(0S+2D), Gilbert 1, Dee 1, ... -->
+  <div class="tp" id="tab-overall">
+    <div class="pr"><div class="rnk gold">1</div><div class="pi"><div class="pn">Elan Vasudevan</div><div class="prec">4W total · 1S + 3D · 4-3 overall</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">4</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk silver">2</div><div class="pi"><div class="pn">Larry Bibb</div><div class="prec">4W total · 0S + 4D · 4-0 overall</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">4</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk bronze">3</div><div class="pi"><div class="pn">Rohith Chinnasamy</div><div class="prec">4W total · 0S + 4D · 4-2 overall</div><div class="mbar"><div class="mfill" style="width:100%"></div></div></div><div class="bw"><div class="wc">4</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">4</div><div class="pi"><div class="pn">Brad Jackson</div><div class="prec">3W total · 3S + 0D · 3-1 overall</div><div class="mbar"><div class="mfill" style="width:75%"></div></div></div><div class="bw"><div class="wc">3</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">Tony Tran</div><div class="prec">2W total · 2S + 0D · 2-1 overall</div><div class="mbar"><div class="mfill" style="width:50%"></div></div></div><div class="bw"><div class="wc">2</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">5</div><div class="pi"><div class="pn">anand Thodati</div><div class="prec">2W total · 0S + 2D · 2-0 overall</div><div class="mbar"><div class="mfill" style="width:50%"></div></div></div><div class="bw"><div class="wc">2</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">7</div><div class="pi"><div class="pn">Gilbert Onyenwezi</div><div class="prec">1W total · 1S + 0D · 1-1 overall</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">7</div><div class="pi"><div class="pn">Dee Murphy</div><div class="prec">1W total · 1S + 0D · 1-1 overall</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Total W</span></div></div>
+    <div class="pr"><div class="rnk">7</div><div class="pi"><div class="pn">Madison Powell</div><div class="prec">1W total · 0S + 1D · 1-1 overall</div><div class="mbar"><div class="mfill" style="width:25%"></div></div></div><div class="bw"><div class="wc">1</div><span class="wl">Total W</span></div></div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="ins">
+    <div class="ctitle" style="margin-top:6px">Season Insights</div>
+    <div class="nc"><span class="tag hot">🔥 Perfect</span><strong>Larry Bibb</strong> is undefeated in doubles — 4 wins, 0 losses all season.</div>
+    <div class="nc"><span class="tag hot">🎾 Singles MVP</span><strong>Brad Jackson</strong> leads singles with 3 wins (75%), playing in 4 of 7 matches.</div>
+    <div class="nc"><span class="tag info">📈 Momentum</span>Eastside has <strong>won 3 straight</strong> to close the regular season strong.</div>
+    <div class="nc"><span class="tag warn">⚠️ S1 Problem</span>The team has lost Singles 1 in <strong>5 of 7 matches</strong> — a consistent vulnerability.</div>
+    <div class="nc"><span class="tag info">🏠 Home Court</span><strong>3–1 at home</strong> · <strong>1–2 away</strong> — dominant on home courts.</div>
+    <div class="nc"><span class="tag hot">🏆 Most Active</span><strong>Elan Vasudevan</strong> has played in all 7 matches (1 singles + 6 doubles appearances).</div>
+  </div>
+
+</div><!-- end sidebar -->
+</div>
+
+<script>
+function showTab(name,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+</script>
+</body>
+</html>
